@@ -1,0 +1,122 @@
+/* ═══════════ BLOG — Figma spec ═══════════
+   Background: #F4F6F9 | Padding: 96px 0
+   Header row: title left, "View All" button right
+   3-col grid | Card: radius 12px, shadow-sm, overflow hidden
+   Thumbnail: 200px height
+═══════════════════════════════════════════ */
+
+.blog { padding: 96px 0; background: var(--gray-light); }
+
+/* Header: title left, button right */
+.blog-header-row {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 24px;
+  margin-bottom: 40px;
+  flex-wrap: wrap;
+}
+.blog-header-row .section-header { text-align: left; margin-bottom: 0; }
+
+/* 3-col grid */
+.blog-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 24px;
+  margin-bottom: 48px;
+}
+
+/* ── Blog Card ── */
+.blog-card {
+  background: #fff;
+  border-radius: var(--r-md);       /* 12px */
+  overflow: hidden;
+  box-shadow: var(--shadow-sm);
+  transition: box-shadow 0.25s, transform 0.25s;
+  display: flex; flex-direction: column;
+}
+.blog-card:hover { box-shadow: var(--shadow-lg); transform: translateY(-3px); }
+
+/* Thumbnail: 200px height */
+.blog-image {
+  height: 200px;
+  display: flex; align-items: center; justify-content: center;
+  overflow: hidden;
+  flex-shrink: 0;
+}
+.blog-img-icon { font-size: 54px; opacity: 0.55; }
+
+/* Content: padding 24px */
+.blog-body {
+  padding: 24px;
+  flex: 1; display: flex; flex-direction: column;
+}
+
+/* Category + Date: 12px, space-between */
+.blog-meta {
+  display: flex; align-items: center;
+  justify-content: space-between;
+  gap: 10px; margin-bottom: 8px;
+  flex-wrap: wrap;
+}
+.blog-cat  { font-size: 12px; font-weight: 600; }
+.blog-date { font-size: 12px; color: var(--gray-mid); }
+
+/* Title: H4, #0D2240, 2-line clamp */
+.blog-title {
+  font-size: 17px; font-weight: 600;
+  color: var(--primary-d); line-height: 1.4;
+  margin-bottom: 8px;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+/* Excerpt: Body Small, #374151, 3-line clamp */
+.blog-excerpt {
+  font-size: 14px; color: var(--gray-dark);
+  line-height: 1.6; flex: 1; margin-bottom: 16px;
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+/* Footer row */
+.blog-footer-row {
+  display: flex; align-items: center; justify-content: space-between;
+  padding-top: 12px; border-top: 1px solid var(--border);
+  margin-top: auto;
+}
+.blog-readtime {
+  display: flex; align-items: center; gap: 5px;
+  font-size: 12px; color: var(--gray-mid);
+}
+
+/* "Read More →": 14px SemiBold, #1B3A6B */
+.blog-read-more {
+  display: inline-flex; align-items: center; gap: 5px;
+  font-size: 14px; font-weight: 600;
+  color: var(--primary); text-decoration: none;
+  transition: gap 0.2s, color 0.2s;
+}
+.blog-read-more:hover { gap: 9px; color: var(--gold); }
+
+.blog-cta { text-align: center; }
+
+/* ─ Responsive ─ */
+@media (max-width: 1024px) {
+  .blog-grid { grid-template-columns: 1fr 1fr; }
+  .blog-grid article:last-child { display: none; }
+}
+@media (max-width: 860px) {
+  .blog { padding: 64px 0; }
+}
+@media (max-width: 640px) {
+  .blog { padding: 48px 0; }
+  .blog-grid { grid-template-columns: 1fr; }
+  .blog-grid article:last-child { display: block; }
+  .blog-header-row { flex-direction: column; align-items: flex-start; }
+  .blog-header-row .btn-ghost { width: 100%; justify-content: center; }
+}

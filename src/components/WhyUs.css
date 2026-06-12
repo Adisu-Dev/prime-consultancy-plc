@@ -1,0 +1,127 @@
+/* ═══════════ WHY CHOOSE US — Figma spec ═══════════
+   Background: White | Padding: 96px 0
+   Left: 50% content | Right: 50% visual card
+   Feature row: flex, align-center, 48×48 icon, border-bottom
+═══════════════════════════════════════════ */
+
+.whyus { padding: 96px 0; background: #fff; }
+
+.whyus-inner {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 64px;
+  align-items: start;
+}
+
+/* ── LEFT ── */
+.whyus-intro {
+  font-size: 16px;
+  color: var(--gray-dark);
+  line-height: 1.7;
+  margin-bottom: 36px;
+}
+
+.reasons-list { display: flex; flex-direction: column; }
+
+/* Feature row: padding 16px 0, border-bottom 1px #E5E7EB */
+.reason-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 16px;
+  padding: 16px 0;
+  border-bottom: 1px solid var(--border);
+  transition: background 0.2s;
+}
+.reason-item:last-child { border-bottom: none; }
+
+/* Icon container: 48×48px, bg #F4F6F9, radius 12px */
+.reason-icon-wrap {
+  width: 48px; height: 48px;
+  background: var(--gray-light);
+  border-radius: var(--r-md);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 22px;
+  flex-shrink: 0;
+  transition: background 0.2s;
+}
+.reason-item:hover .reason-icon-wrap { background: rgba(27,58,107,0.08); }
+
+.reason-body { flex: 1; }
+.reason-title { font-size: 16px; font-weight: 600; color: var(--primary-d); margin-bottom: 4px; }
+.reason-desc  { font-size: 14px; color: var(--gray-mid); line-height: 1.55; }
+
+/* ── RIGHT visual ── */
+.whyus-visual { display: flex; flex-direction: column; gap: 20px; }
+
+/* Performance card — primary blue bg */
+.performance-card {
+  background: var(--primary);
+  border-radius: var(--r-xl);
+  padding: 28px;
+  color: #fff;
+  box-shadow: var(--shadow-xl);
+}
+
+.perf-header {
+  display: flex; justify-content: space-between; align-items: center;
+  margin-bottom: 24px;
+}
+.perf-title { font-size: 16px; font-weight: 700; }
+.perf-year {
+  background: rgba(201,168,76,0.2); color: var(--gold);
+  padding: 4px 12px; border-radius: 20px;
+  font-size: 12px; font-weight: 700;
+}
+
+.perf-metrics {
+  display: grid; grid-template-columns: 1fr 1fr;
+  gap: 12px; margin-bottom: 24px;
+}
+.perf-metric {
+  background: rgba(255,255,255,0.08);
+  border-radius: var(--r-lg); padding: 14px; text-align: center;
+  border: 1px solid rgba(255,255,255,0.08);
+  transition: background 0.2s;
+}
+.perf-metric:hover { background: rgba(255,255,255,0.14); }
+.perf-val  { font-size: 26px; font-weight: 700; color: var(--gold); line-height: 1; margin-bottom: 4px; }
+.perf-lbl  { font-size: 12px; font-weight: 600; color: #fff; margin-bottom: 2px; }
+.perf-desc { font-size: 11px; color: rgba(255,255,255,0.5); }
+
+.perf-bars { display: flex; flex-direction: column; gap: 14px; }
+.pbi-row   { display: flex; justify-content: space-between; margin-bottom: 6px; }
+.pbi-label { font-size: 12px; color: rgba(255,255,255,0.75); font-weight: 500; }
+.pbi-pct   { font-size: 12px; font-weight: 700; color: var(--gold); }
+.pbi-track { height: 7px; background: rgba(255,255,255,0.12); border-radius: 4px; overflow: hidden; }
+.pbi-fill  {
+  height: 100%;
+  background: linear-gradient(90deg, var(--gold), var(--gold-h));
+  border-radius: 4px;
+  transition: width 1.2s ease;
+}
+
+/* CTA box */
+.whyus-cta-box {
+  background: var(--gray-light);
+  border: 1px solid var(--border);
+  border-radius: var(--r-xl);
+  padding: 28px; text-align: center;
+}
+.whyus-cta-box p {
+  font-size: 15px; color: var(--gray-dark);
+  font-weight: 500; margin-bottom: 16px;
+}
+.whyus-cta-box .btn-primary {
+  width: 100%; justify-content: center;
+}
+
+/* ─ Responsive ─ */
+@media (max-width: 1024px) { .whyus-inner { gap: 40px; } }
+@media (max-width: 860px) {
+  .whyus { padding: 64px 0; }
+  .whyus-inner { grid-template-columns: 1fr; }
+}
+@media (max-width: 480px) {
+  .whyus { padding: 48px 0; }
+  .perf-metrics { grid-template-columns: 1fr 1fr; }
+}

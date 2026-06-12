@@ -1,0 +1,131 @@
+/* ═══════════ ABOUT — Figma spec ═══════════
+   Background: White | Padding: 96px 0
+   Grid: 2 equal columns, gap 64px
+   Left: image stack with accent + floating badge
+   Right: section label, H2, body, 4 feature pills, CTA
+═══════════════════════════════════════════ */
+
+.about { background: #fff; padding: 96px 0; }
+
+.about-inner {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  align-items: center;
+  gap: 64px;
+}
+
+/* ── LEFT: image stack ── */
+.about-visual {
+  position: relative;
+  padding-bottom: 48px;
+}
+
+.about-main-img {
+  border-radius: var(--r-xl);
+  overflow: hidden;
+  box-shadow: var(--shadow-xl);
+  position: relative;
+  z-index: 1;
+}
+.about-img {
+  width: 100%;
+  height: 380px;
+  object-fit: cover;
+  display: block;
+}
+
+/* Accent / secondary image — overlapping, bottom-right */
+.about-accent-img {
+  position: absolute;
+  bottom: 0; right: -24px;
+  width: 200px; height: 150px;
+  border-radius: var(--r-xl);
+  overflow: hidden;
+  border: 4px solid #fff;
+  box-shadow: var(--shadow-lg);
+  z-index: 2;
+}
+.about-img-sm {
+  width: 100%; height: 100%;
+  object-fit: cover; display: block;
+}
+
+/* Floating experience badge — gold, top-right */
+.about-exp-badge {
+  position: absolute;
+  top: 28px; right: -16px;
+  background: var(--gold);
+  border-radius: var(--r-xl);
+  padding: 18px 22px;
+  text-align: center;
+  box-shadow: var(--shadow-gold);
+  z-index: 3;
+}
+.exp-num { display: block; font-size: 36px; font-weight: 700; color: #fff; line-height: 1; }
+.exp-lbl { display: block; font-size: 12px; font-weight: 600; color: rgba(255,255,255,0.9); margin-top: 4px; line-height: 1.4; }
+
+/* ── RIGHT: content ── */
+.about-content { }
+
+.about-p {
+  font-size: 16px;
+  color: var(--gray-dark);
+  line-height: 1.7;
+  margin-bottom: 14px;
+}
+.about-p + .about-p { margin-top: 0; }
+
+/* 4 feature pills — 2×2 grid */
+.about-features {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+  margin: 24px 0 32px;
+}
+.about-feature {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 14px;
+  background: var(--gray-light);
+  border: 1px solid var(--border);
+  border-radius: var(--r-lg);
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--gray-dark);
+  transition: all 0.22s;
+}
+.about-feature:hover {
+  border-color: var(--gold);
+  background: #fff;
+  box-shadow: var(--shadow-sm);
+}
+
+/* ─ Responsive ─ */
+
+@media (max-width: 1024px) {
+  .about-inner { gap: 40px; }
+}
+
+@media (max-width: 860px) {
+  .about { padding: 64px 0; }
+  .about-inner {
+    grid-template-columns: 1fr;
+    gap: 48px;
+  }
+  .about-visual {
+    max-width: 500px;
+    margin: 0 auto;
+  }
+  .about-accent-img { right: -8px; }
+  .about-exp-badge  { top: 16px; right: -8px; padding: 14px 18px; }
+  .exp-num          { font-size: 28px; }
+}
+
+@media (max-width: 540px) {
+  .about { padding: 48px 0; }
+  .about-img       { height: 260px; }
+  .about-accent-img { display: none; }
+  .about-features  { grid-template-columns: 1fr; }
+  .about-exp-badge { right: 8px; top: 8px; }
+}

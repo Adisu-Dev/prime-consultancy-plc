@@ -1,0 +1,72 @@
+/* ── User toolbar strip ── */
+.user-toolbar {
+  background: var(--primary);
+  position: sticky;
+  top: 0;
+  z-index: 1001;
+  border-bottom: 2px solid var(--gold);
+}
+
+.ut-inner {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 7px 32px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+}
+
+.ut-greeting { display: flex; align-items: center; gap: 9px; }
+
+.ut-avatar {
+  width: 28px; height: 28px;
+  background: var(--gold);
+  color: #fff;
+  border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 11px; font-weight: 800; flex-shrink: 0;
+}
+
+.ut-name { font-size: 13px; color: rgba(255,255,255,0.7); }
+.ut-name strong { color: #fff; }
+
+.ut-actions { display: flex; gap: 8px; }
+
+.ut-btn {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  padding: 5px 13px;
+  background: rgba(255,255,255,0.08);
+  border: 1px solid rgba(255,255,255,0.15);
+  border-radius: var(--r-sm);
+  color: rgba(255,255,255,0.82);
+  font-size: 12px;
+  font-weight: 600;
+  font-family: inherit;
+  cursor: pointer;
+  transition: all 0.18s;
+}
+.ut-btn:hover { background: rgba(255,255,255,0.15); color: #fff; }
+.ut-btn-logout:hover {
+  background: rgba(239,68,68,0.2);
+  border-color: rgba(239,68,68,0.45);
+  color: #fca5a5;
+}
+
+/* Navbar sits below toolbar (~40px) */
+.user-site-wrap .navbar { top: 40px; }
+
+/* Bump scroll targets so sections clear navbar + toolbar */
+.user-site-wrap section[id] { scroll-margin-top: 120px; }
+
+@media (max-width: 860px) {
+  .ut-inner { padding: 7px 20px; }
+}
+@media (max-width: 540px) {
+  .ut-inner { flex-direction: column; gap: 6px; padding: 8px 16px; }
+  .ut-actions { width: 100%; justify-content: flex-end; }
+  .user-site-wrap .navbar { top: 64px; }
+  .user-site-wrap section[id] { scroll-margin-top: 145px; }
+}

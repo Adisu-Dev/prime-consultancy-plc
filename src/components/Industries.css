@@ -1,0 +1,99 @@
+/* ═══════════ INDUSTRIES — Figma spec ═══════════
+   Background: #0D2240 (Deep Navy) | Padding: 80px 0
+   Cards: 160×160px, rgba(255,255,255,0.05), radius 16px
+   Row 1: 5 cards | Row 2: 3 cards centered
+   Hover: gold border, gold bg tint
+═══════════════════════════════════════════ */
+
+.industries {
+  padding: 80px 0;
+  background: var(--primary-d);
+  position: relative;
+  overflow: hidden;
+}
+
+/* Subtle grid pattern */
+.industries::before {
+  content: '';
+  position: absolute; inset: 0;
+  background-image:
+    linear-gradient(rgba(46,107,196,0.08) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(46,107,196,0.08) 1px, transparent 1px);
+  background-size: 48px 48px;
+  pointer-events: none;
+}
+.industries .section-header { position: relative; z-index: 1; }
+
+/* Row 1: 5 cards */
+.industries-grid {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 16px;
+  position: relative; z-index: 1;
+  margin-bottom: 16px;
+}
+
+/* Row 2: 3 cards, centered */
+.industries-grid-row2 {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 16px;
+  max-width: 640px;
+  margin: 0 auto;
+  position: relative; z-index: 1;
+}
+
+/* Industry Card: 160×160px target via aspect-ratio */
+.industry-card {
+  background: rgba(255,255,255,0.05);
+  border: 1px solid rgba(255,255,255,0.1);
+  border-radius: var(--r-lg);       /* 16px */
+  padding: 24px 12px 20px;
+  text-align: center;
+  transition: all 0.25s;
+  cursor: pointer;
+  aspect-ratio: 1 / 1;
+  display: flex; flex-direction: column; align-items: center; justify-content: center;
+}
+.industry-card:hover {
+  background: rgba(201,168,76,0.15);
+  border-color: var(--gold);
+  transform: translateY(-4px);
+  box-shadow: 0 12px 32px rgba(0,0,0,0.3);
+}
+
+/* Icon: 40px, #C9A84C */
+.industry-icon-wrap {
+  font-size: 36px;
+  color: var(--gold);
+  margin-bottom: 10px;
+  line-height: 1;
+}
+.industry-icon { font-size: 36px; }
+
+/* Label: 13px Medium, white */
+.industry-name { font-size: 13px; font-weight: 500; color: #fff; line-height: 1.3; margin-bottom: 3px; }
+.industry-desc { font-size: 11px; color: rgba(255,255,255,0.45); line-height: 1.3; }
+
+/* ─ Responsive ─ */
+
+/* Tablet: 4 columns */
+@media (max-width: 1024px) {
+  .industries-grid { grid-template-columns: repeat(4, 1fr); }
+  .industries-grid-row2 { grid-template-columns: repeat(4, 1fr); max-width: 100%; }
+}
+
+/* Small tablet: 3 columns */
+@media (max-width: 768px) {
+  .industries { padding: 64px 0; }
+  .industries-grid { grid-template-columns: repeat(3, 1fr); }
+  .industries-grid-row2 { grid-template-columns: repeat(3, 1fr); max-width: 100%; }
+}
+
+/* Mobile: 2 columns */
+@media (max-width: 540px) {
+  .industries { padding: 48px 0; }
+  .industries-grid,
+  .industries-grid-row2 { grid-template-columns: repeat(2, 1fr); max-width: 100%; }
+  .industry-card { padding: 16px 8px; }
+}

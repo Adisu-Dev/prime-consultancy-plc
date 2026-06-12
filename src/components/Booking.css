@@ -1,0 +1,158 @@
+/* ═══════════ BOOKING — Figma spec ═══════════
+   Background: gradient #1B3A6B → #0D2240
+   Padding: 96px 0
+   Left 40%: label, H2, features, contact info
+   Right 60%: white card, radius 24px, padding 40px, shadow-xl
+═══════════════════════════════════════════ */
+
+.booking {
+  padding: 96px 0;
+  background: linear-gradient(135deg, var(--primary) 0%, var(--primary-d) 100%);
+  position: relative;
+  overflow: hidden;
+}
+
+/* Subtle grid overlay */
+.booking-bg {
+  position: absolute; inset: 0;
+  background-image:
+    linear-gradient(rgba(255,255,255,0.025) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255,255,255,0.025) 1px, transparent 1px);
+  background-size: 48px 48px;
+  pointer-events: none;
+}
+
+/* 40 / 60 layout */
+.booking-inner {
+  display: grid;
+  grid-template-columns: 4fr 6fr;
+  gap: 64px;
+  align-items: start;
+  position: relative;
+  z-index: 1;
+}
+
+/* ── LEFT ── */
+.booking-left { }
+
+.booking-desc {
+  font-size: 15px;
+  color: rgba(255,255,255,0.65);
+  line-height: 1.85;
+  margin-bottom: 32px;
+}
+
+.booking-features { display: flex; flex-direction: column; gap: 13px; margin-bottom: 36px; }
+.booking-feature {
+  display: flex; align-items: center; gap: 10px;
+  font-size: 14px; color: rgba(255,255,255,0.8);
+}
+.booking-feature span:first-child { font-size: 16px; flex-shrink: 0; }
+
+.booking-contact { display: flex; flex-direction: column; gap: 16px; }
+.bc-item { display: flex; align-items: center; gap: 14px; }
+.bc-icon {
+  width: 44px; height: 44px;
+  background: rgba(255,255,255,0.1);
+  border: 1px solid rgba(255,255,255,0.15);
+  border-radius: var(--r-lg);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 18px; flex-shrink: 0;
+}
+.bc-label { font-size: 11px; color: rgba(255,255,255,0.45); text-transform: uppercase; letter-spacing: 0.8px; margin-bottom: 2px; }
+.bc-val   { font-size: 14px; font-weight: 600; color: #fff; }
+a.bc-val  { text-decoration: none; }
+a.bc-val:hover { color: var(--gold); }
+
+/* ── RIGHT — Form card ── */
+.booking-right { }
+
+/* Figma: bg white, radius 24px, padding 40px, shadow-xl */
+.booking-form {
+  background: #fff;
+  border-radius: var(--r-xl);       /* 24px */
+  padding: 40px;
+  box-shadow: var(--shadow-2xl);
+}
+
+.form-title { font-size: 20px; font-weight: 700; color: var(--primary-d); margin-bottom: 24px; }
+
+/* 2-col row for paired inputs */
+.form-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 14px;
+  margin-bottom: 0;
+}
+
+.form-group {
+  display: flex; flex-direction: column;
+  gap: 5px; margin-bottom: 14px;
+}
+.form-group label {
+  font-size: 13px; font-weight: 600;
+  color: var(--gray-dark);
+  margin-bottom: 2px;
+}
+.form-group input,
+.form-group select,
+.form-group textarea {
+  height: 52px;
+  padding: 0 14px;
+  border: 1px solid var(--border);
+  border-radius: var(--r-sm);
+  font-size: 15px; font-family: inherit;
+  color: var(--gray-dark); background: #fff;
+  outline: none; width: 100%;
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+.form-group textarea {
+  height: auto; min-height: 110px;
+  padding: 12px 14px; resize: vertical;
+}
+.form-group input:focus,
+.form-group select:focus,
+.form-group textarea:focus {
+  border-color: var(--primary);
+  box-shadow: 0 0 0 3px rgba(27,58,107,0.1);
+}
+.form-group input::placeholder,
+.form-group textarea::placeholder { color: var(--gray-mid); font-size: 14px; }
+
+.form-submit {
+  width: 100%;
+  justify-content: center;
+  height: 52px;
+  font-size: 16px;
+  margin-top: 4px;
+}
+
+/* Success state */
+.booking-success {
+  background: #fff;
+  border-radius: var(--r-xl);
+  padding: 52px 32px;
+  text-align: center;
+  box-shadow: var(--shadow-2xl);
+}
+.booking-success .success-icon { font-size: 54px; margin-bottom: 18px; }
+.booking-success h3  { font-size: 22px; margin-bottom: 10px; color: var(--primary-d); }
+.booking-success p   { font-size: 14px; color: var(--gray-mid); line-height: 1.7; margin-bottom: 24px; }
+.booking-success .btn-primary { margin: 0 auto; }
+
+/* ─ Responsive ─ */
+@media (max-width: 1024px) {
+  .booking-inner { gap: 48px; }
+}
+@media (max-width: 860px) {
+  .booking { padding: 64px 0; }
+  .booking-inner {
+    grid-template-columns: 1fr;
+    gap: 40px;
+  }
+}
+@media (max-width: 540px) {
+  .booking { padding: 48px 0; }
+  .form-row { grid-template-columns: 1fr; }
+  .booking-form { padding: 24px; }
+}
