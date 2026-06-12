@@ -1,3 +1,7 @@
+/* ══════════════════════════════
+   APPOINTMENTS — Responsive
+══════════════════════════════ */
+
 .appt-summary {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
@@ -27,12 +31,20 @@
   align-items: center;
   padding: 10px 0;
   border-bottom: 1px solid var(--gray-100);
+  gap: 8px;
 }
 .appt-detail-row:last-child { border-bottom: none; }
 
-.apdt-label { font-size: 11px; font-weight: 700; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.5px; }
-.apdt-val   { font-size: 14px; color: var(--text-dark); font-weight: 500; }
+.apdt-label { font-size: 11px; font-weight: 700; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.5px; flex-shrink: 0; }
+.apdt-val   { font-size: 14px; color: var(--text-dark); font-weight: 500; text-align: right; }
 
-@media (max-width: 640px) {
-  .appt-summary { grid-template-columns: 1fr 1fr; }
+/* ─ Responsive ─ */
+@media (max-width: 768px) {
+  .appt-summary { grid-template-columns: 1fr 1fr; gap: 10px; }
+  .asc-count { font-size: 22px; }
+}
+
+@media (max-width: 480px) {
+  .appt-summary { grid-template-columns: repeat(2, 1fr); }
+  .appt-summary-card { padding: 12px; }
 }

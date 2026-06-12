@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useAuth } from '../../context/AuthContext';
 import AdminSidebar from './AdminSidebar';
 import AdminHeader from './AdminHeader';
@@ -20,18 +20,49 @@ const views = {
 export default function AdminLayout() {
   const [activeView, setActiveView] = useState('dashboard');
   const [sidebarOpen, setSidebarOpen] = useState(true);
+  const [isMobile, setIsMobile] = useState(window.innerWidth < 768);
   const { currentUser } = useAuth();
+
+  // Detect mobile, auto-close sidebar on small screens
+  useEffect(() => {
+    const check = () => {
+      const mobile = window.innerWidth < 768;
+      setIsMobile(mobile);
+      if (mobile) setSidebarOpen(false);
+      else setSidebarOpen(true);
+    };
+    check();
+    window.addEventListener('resize', check);
+    return () => window.removeEventListener('resize', check);
+  }, []);
 
   const View = views[activeView] || AdminDashboard;
 
+  const handleNavigate = (view) => {
+    setActiveView(view);
+    if (isMobile) setSidebarOpen(false); // auto-close on mobile after nav
+  };
+
   return (
     <div className={`admin-layout ${sidebarOpen ? 'sidebar-open' : 'sidebar-collapsed'}`}>
+
+      {/* Mobile overlay backdrop */}
+      {isMobile && sidebarOpen && (
+        <div
+          className="sidebar-backdrop"
+          onClick={() => setSidebarOpen(false)}
+          aria-hidden="true"
+        />
+      )}
+
       <AdminSidebar
         active={activeView}
-        onNavigate={setActiveView}
+        onNavigate={handleNavigate}
         open={sidebarOpen}
         onToggle={() => setSidebarOpen(s => !s)}
+        isMobile={isMobile}
       />
+
       <div className="admin-main">
         <AdminHeader
           onMenuToggle={() => setSidebarOpen(s => !s)}
