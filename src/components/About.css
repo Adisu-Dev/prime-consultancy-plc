@@ -127,5 +127,14 @@
   .about-img       { height: 260px; }
   .about-accent-img { display: none; }
   .about-features  { grid-template-columns: 1fr; }
-  .about-exp-badge { right: 8px; top: 8px; }
+  /* Move badge to bottom-left so it doesn't cover faces */
+  .about-exp-badge {
+    right: auto;
+    left: 8px;
+    top: auto;
+    bottom: 56px;
+    padding: 12px 16px;
+  }
+  .exp-num { font-size: 24px; }
+  .exp-lbl { font-size: 11px; }
 }

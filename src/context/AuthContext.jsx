@@ -10,11 +10,11 @@ const AuthContext = createContext(null);
 
 // ── Mock credential store ──────────────────────────────────────────
 const mockUsers = [
-  { id: 1, email: 'admin@prime.et',   password: 'Admin@123',   role: 'admin', name: 'Solomon Bekele', avatar: null },
-  { id: 2, email: 'user@prime.et',    password: 'User@123',    role: 'user',  name: 'Tigist Haile',   avatar: null },
-  { id: 3, email: 'manager@prime.et', password: 'Manager@123', role: 'admin', name: 'Mulugeta Girma', avatar: null },
-  { id: 4, email: 'adisu@prime.et',   password: 'Adisu@123',   role: 'admin', name: 'Adisu Dereje',   avatar: null },
-  { id: 5, email: 'adisu.user@prime.et', password: 'Adisu@123', role: 'user', name: 'Adisu Dereje',   avatar: null },
+  { id: 1, email: 'admin@prime.et',      password: 'Admin@123',   role: 'admin', name: 'Solomon Bekele', avatar: null },
+  { id: 2, email: 'user@prime.et',       password: 'User@123',    role: 'user',  name: 'Adisu Dereje',   avatar: null },
+  { id: 3, email: 'manager@prime.et',    password: 'Manager@123', role: 'admin', name: 'Mulugeta Girma', avatar: null },
+  { id: 4, email: 'adisu@prime.et',      password: 'Adisu@123',   role: 'admin', name: 'Adisu Dereje',   avatar: null },
+  { id: 5, email: 'adisu.user@prime.et', password: 'Adisu@123',   role: 'user',  name: 'Adisu Dereje',   avatar: null },
 ];
 
 export function AuthProvider({ children }) {

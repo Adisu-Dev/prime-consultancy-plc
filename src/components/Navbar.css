@@ -126,8 +126,8 @@
   transition: max-height 0.35s ease, padding 0.35s ease;
 }
 .mobile-menu.open {
-  max-height: 520px;
-  padding: 12px 20px 28px;
+  max-height: 560px;
+  padding: 8px 20px 28px;
 }
 
 .mobile-link {
