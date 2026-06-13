@@ -1,4 +1,5 @@
-import { useAuth } from '../../context/AuthContext';
+import { useNavigate } from 'react-router-dom';
+import { useAuth, ROLE_PERMISSIONS } from '../../context/AuthContext';
 
 const viewTitles = {
   dashboard:    'Dashboard',
@@ -10,17 +11,23 @@ const viewTitles = {
 
 export default function AdminHeader({ onMenuToggle, activeView, user }) {
   const { logout } = useAuth();
-  const initials = user?.name?.split(' ').map(n => n[0]).join('').slice(0, 2) || 'AU';
+  const navigate   = useNavigate();
+  const initials   = user?.name?.split(' ').map(n => n[0]).join('').slice(0, 2) || 'AU';
+  const roleInfo   = ROLE_PERMISSIONS[user?.role] || {};
+
+  const handleLogout = () => {
+    logout();
+    navigate('/admin');
+  };
 
   return (
     <header className="admin-header">
       <div className="ah-left">
-        {/* Hamburger — always visible */}
         <button className="ah-menu-btn" onClick={onMenuToggle} aria-label="Toggle sidebar">
           <span /><span /><span />
         </button>
         <div className="ah-breadcrumb">
-          <span style={{ color: 'var(--text-muted)', fontWeight: 400 }}>Admin / </span>
+          <span>Admin / </span>
           {viewTitles[activeView] || activeView}
         </div>
       </div>
@@ -31,19 +38,21 @@ export default function AdminHeader({ onMenuToggle, activeView, user }) {
           <span className="ah-notif-dot" />
         </button>
 
-        {/* User avatar — always visible, name hidden on small screens via CSS */}
         <div
           className="ah-user"
-          onClick={logout}
+          onClick={handleLogout}
           title="Click to sign out"
           role="button"
           tabIndex={0}
-          onKeyDown={e => e.key === 'Enter' && logout()}
+          onKeyDown={e => e.key === 'Enter' && handleLogout()}
         >
-          <div className="ah-avatar">{initials}</div>
+          <div className="ah-avatar"
+            style={{ background: roleInfo.color || 'var(--navy)' }}>
+            {initials}
+          </div>
           <div className="ah-user-info">
-            <div className="ah-user-name">{user?.name || 'Admin User'}</div>
-            <div className="ah-user-role">{user?.role === 'admin' ? 'Administrator' : 'Manager'}</div>
+            <div className="ah-user-name">{user?.name || 'Admin'}</div>
+            <div className="ah-user-role">{roleInfo.label || user?.role}</div>
           </div>
         </div>
       </div>

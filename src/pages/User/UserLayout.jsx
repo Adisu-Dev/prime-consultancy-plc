@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../../context/AuthContext';
 import UserProfile from './UserProfile';
 import Navbar from '../../components/Navbar';
@@ -18,6 +19,9 @@ import './UserLayout.css';
 export default function UserLayout() {
   const [showProfile, setShowProfile] = useState(false);
   const { currentUser, logout } = useAuth();
+  const navigate = useNavigate();
+
+  const handleLogout = () => { logout(); navigate('/login'); };
 
   return (
     <div className="user-layout">
@@ -36,7 +40,7 @@ export default function UserLayout() {
             <button className="ut-btn" onClick={() => setShowProfile(true)}>
               👤 My Profile
             </button>
-            <button className="ut-btn ut-btn-logout" onClick={logout}>
+            <button className="ut-btn ut-btn-logout" onClick={handleLogout}>
               🚪 Sign Out
             </button>
           </div>

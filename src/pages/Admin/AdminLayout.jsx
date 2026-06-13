@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import { Routes, Route, useLocation, Navigate } from 'react-router-dom';
 import { useAuth } from '../../context/AuthContext';
 import AdminSidebar from './AdminSidebar';
 import AdminHeader from './AdminHeader';
@@ -9,21 +10,22 @@ import AdminInquiries from './AdminInquiries';
 import AdminBlog from './AdminBlog';
 import './AdminLayout.css';
 
-const views = {
-  dashboard:    AdminDashboard,
-  services:     AdminServices,
-  appointments: AdminAppointments,
-  inquiries:    AdminInquiries,
-  blog:         AdminBlog,
+// Maps URL path segment → sidebar active id
+const pathToView = {
+  'dashboard':    'dashboard',
+  'appointments': 'appointments',
+  'inquiries':    'inquiries',
+  'services':     'services',
+  'blog':         'blog',
 };
 
 export default function AdminLayout() {
-  const [activeView, setActiveView] = useState('dashboard');
+  const location   = useLocation();
+  const { currentUser, canAccess } = useAuth();
   const [sidebarOpen, setSidebarOpen] = useState(true);
-  const [isMobile, setIsMobile] = useState(window.innerWidth < 768);
-  const { currentUser } = useAuth();
+  const [isMobile, setIsMobile]       = useState(window.innerWidth < 768);
 
-  // Detect mobile, auto-close sidebar on small screens
+  // Detect mobile breakpoint
   useEffect(() => {
     const check = () => {
       const mobile = window.innerWidth < 768;
@@ -36,17 +38,26 @@ export default function AdminLayout() {
     return () => window.removeEventListener('resize', check);
   }, []);
 
-  const View = views[activeView] || AdminDashboard;
+  // Derive active view from URL
+  const segment   = location.pathname.split('/').pop();
+  const activeView = pathToView[segment] || 'dashboard';
 
-  const handleNavigate = (view) => {
-    setActiveView(view);
-    if (isMobile) setSidebarOpen(false); // auto-close on mobile after nav
+  const handleNavigate = () => {
+    if (isMobile) setSidebarOpen(false);
+  };
+
+  // Default landing: super_admin → dashboard, others → first permitted section
+  const defaultPath = () => {
+    if (currentUser?.role === 'super_admin') return '/admin/dashboard';
+    const perms = ['appointments', 'inquiries', 'services', 'blog'];
+    const first = perms.find(p => canAccess(p));
+    return first ? `/admin/${first}` : '/admin/dashboard';
   };
 
   return (
     <div className={`admin-layout ${sidebarOpen ? 'sidebar-open' : 'sidebar-collapsed'}`}>
 
-      {/* Mobile overlay backdrop */}
+      {/* Mobile backdrop */}
       {isMobile && sidebarOpen && (
         <div
           className="sidebar-backdrop"
@@ -66,12 +77,21 @@ export default function AdminLayout() {
       <div className="admin-main">
         <AdminHeader
           onMenuToggle={() => setSidebarOpen(s => !s)}
-          sidebarOpen={sidebarOpen}
-          user={currentUser}
           activeView={activeView}
+          user={currentUser}
         />
         <div className="admin-content">
-          <View />
+          <Routes>
+            {/* Default redirect */}
+            <Route index element={<Navigate to={defaultPath()} replace />} />
+            <Route path="dashboard"    element={<AdminDashboard />} />
+            <Route path="appointments" element={<AdminAppointments />} />
+            <Route path="inquiries"    element={<AdminInquiries />} />
+            <Route path="services"     element={<AdminServices />} />
+            <Route path="blog"         element={<AdminBlog />} />
+            {/* Catch-all */}
+            <Route path="*"            element={<Navigate to={defaultPath()} replace />} />
+          </Routes>
         </div>
       </div>
     </div>

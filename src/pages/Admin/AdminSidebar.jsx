@@ -1,19 +1,35 @@
-import { useAuth } from '../../context/AuthContext';
+import { useNavigate } from 'react-router-dom';
+import { useAuth, ROLE_PERMISSIONS } from '../../context/AuthContext';
 
 const navItems = [
-  { id: 'dashboard',    icon: '📊', label: 'Dashboard',    section: 'MAIN' },
-  { id: 'appointments', icon: '📅', label: 'Appointments', section: 'MANAGE', badge: 8 },
-  { id: 'inquiries',    icon: '💬', label: 'Inquiries',    section: 'MANAGE', badge: 3 },
-  { id: 'services',     icon: '🎯', label: 'Services',     section: 'CONTENT' },
-  { id: 'blog',         icon: '📝', label: 'Blog & Posts', section: 'CONTENT' },
+  { id: 'dashboard',    icon: '📊', label: 'Dashboard',    section: 'MAIN',    path: '/admin/dashboard' },
+  { id: 'appointments', icon: '📅', label: 'Appointments', section: 'MANAGE',  path: '/admin/appointments', badge: 8 },
+  { id: 'inquiries',    icon: '💬', label: 'Inquiries',    section: 'MANAGE',  path: '/admin/inquiries',    badge: 3 },
+  { id: 'services',     icon: '🎯', label: 'Services',     section: 'CONTENT', path: '/admin/services' },
+  { id: 'blog',         icon: '📝', label: 'Blog & Posts', section: 'CONTENT', path: '/admin/blog' },
 ];
 
 export default function AdminSidebar({ active, onNavigate, open, onToggle, isMobile }) {
-  const { logout } = useAuth();
-  const sections = [...new Set(navItems.map(i => i.section))];
+  const { logout, currentUser, canAccess } = useAuth();
+  const navigate = useNavigate();
+  const role = currentUser?.role || 'user';
+  const roleInfo = ROLE_PERMISSIONS[role];
 
-  // On mobile, always show full labels (sidebar is overlay)
+  // Filter nav items based on role permissions
+  // super_admin sees everything, others see only their permitted sections
+  const visibleItems = navItems.filter(item => {
+    if (role === 'super_admin') return true;
+    if (item.id === 'dashboard') return false; // only super admin sees dashboard
+    return canAccess(item.id);
+  });
+
+  const sections = [...new Set(visibleItems.map(i => i.section))];
   const showLabels = isMobile ? true : open;
+
+  const handleLogout = () => {
+    logout();
+    navigate('/admin');
+  };
 
   return (
     <aside className="admin-sidebar">
@@ -26,7 +42,6 @@ export default function AdminSidebar({ active, onNavigate, open, onToggle, isMob
             <div className="sb-logo-sub">ADMIN PORTAL</div>
           </div>
         )}
-        {/* Close button on mobile */}
         {isMobile && (
           <button
             onClick={onToggle}
@@ -43,16 +58,34 @@ export default function AdminSidebar({ active, onNavigate, open, onToggle, isMob
         )}
       </div>
 
+      {/* Role badge */}
+      {showLabels && (
+        <div style={{
+          margin: '8px 12px', padding: '6px 12px',
+          background: `${roleInfo?.color}22`,
+          border: `1px solid ${roleInfo?.color}44`,
+          borderRadius: 8, textAlign: 'center',
+        }}>
+          <span style={{
+            fontSize: 11, fontWeight: 700,
+            color: roleInfo?.color || '#fff',
+            textTransform: 'uppercase', letterSpacing: 1,
+          }}>
+            {roleInfo?.label || role}
+          </span>
+        </div>
+      )}
+
       {/* Nav */}
       <nav className="sidebar-nav" aria-label="Admin navigation">
         {sections.map(section => (
           <div key={section}>
             <div className="sidebar-section-label">{section}</div>
-            {navItems.filter(i => i.section === section).map(item => (
+            {visibleItems.filter(i => i.section === section).map(item => (
               <button
                 key={item.id}
                 className={`sb-nav-item ${active === item.id ? 'active' : ''}`}
-                onClick={() => onNavigate(item.id)}
+                onClick={() => { onNavigate(item.id); navigate(item.path); }}
                 title={!showLabels ? item.label : undefined}
                 aria-current={active === item.id ? 'page' : undefined}
               >
@@ -71,7 +104,7 @@ export default function AdminSidebar({ active, onNavigate, open, onToggle, isMob
       <div className="sidebar-footer">
         <button
           className="sb-nav-item"
-          onClick={logout}
+          onClick={handleLogout}
           title={!showLabels ? 'Sign Out' : undefined}
         >
           <span className="sb-icon">🚪</span>
